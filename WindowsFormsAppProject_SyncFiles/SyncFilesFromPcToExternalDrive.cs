@@ -22,7 +22,7 @@ namespace WindowsFormsAppProject_SyncFiles
             // Empty
         }
 
-        public string StartSync(
+        public string ErrorCheck(
             string PathToFilesOnPc,
             string PathToFilesOnExternal)
         {
@@ -49,16 +49,16 @@ namespace WindowsFormsAppProject_SyncFiles
 
             if (Path.GetFileName(pathA) != Path.GetFileName(pathB))
             {
-                Console.WriteLine($"Sorry the end of path: {_pathToFilesOnPc} does not match the end of path {_pathToFilesOnExternal}. Please try again.");
+                return $"Sorry the end of path: {_pathToFilesOnPc} does not match the end of path {_pathToFilesOnExternal}. Please try again.";
             }
 
             _shortPathToFilesOnPc = hf.ShortenedPath(_pathToFilesOnPc);
             _shortPathToFilesOnExternal = hf.ShortenedPath(_pathToFilesOnExternal);
 
-            SyncFiles();
+            return null;
         }
 
-        private void SyncFiles()
+        public void SyncFiles()
         {
             allSortedFilesFromFromExternalDrive = hf.CheckForChanges($@"{_pathToFilesOnExternal}\Changes.txt");
 

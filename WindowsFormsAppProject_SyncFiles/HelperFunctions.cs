@@ -248,13 +248,15 @@ namespace WindowsFormsAppProject_SyncFiles
         {
             try
             {
-                using StreamWriter writetext = new StreamWriter(pathToChangesFile);
-                foreach (var file in allSortedFilesFromFromExternalDrive)
+                using (StreamWriter writetext = new StreamWriter(pathToChangesFile))
                 {
-                    writetext.WriteLine(file.Key);
-                    writetext.WriteLine(file.Value.Modified);
+                    foreach (var file in allSortedFilesFromFromExternalDrive)
+                    {
+                        writetext.WriteLine(file.Key);
+                        writetext.WriteLine(file.Value.Modified);
+                    }
+                    writetext.Close();
                 }
-                writetext.Close();
             }
             catch (Exception ex)
             {

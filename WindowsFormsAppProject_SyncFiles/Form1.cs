@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsAppProject_SyncFiles
@@ -35,7 +36,22 @@ namespace WindowsFormsAppProject_SyncFiles
 
         private void buttonSyncFiles_Click(object sender, EventArgs e)
         {
-            _main.
+            flipButtons(false);
+            string msg = _main.ErrorCheck(pcFolderDirectory.Text, externalFolderDirectory.Text);
+
+            if (!string.IsNullOrEmpty(msg))
+            {
+                labelError.Text = msg;
+                flipButtons(true);
+            }
+            else
+            {
+                Task.Run(() =>
+                {
+                    _main.SyncFiles();
+                    flipButtons(true);
+                });
+            }
         }
 
         private string selectDirectory()
@@ -54,6 +70,13 @@ namespace WindowsFormsAppProject_SyncFiles
                     return null;
                 }
             }
+        }
+
+        private void flipButtons(bool flip)
+        {
+            buttonExternalFolder.Enabled = flip;
+            buttonPcFolder.Enabled = flip;
+            buttonSyncFiles.Enabled = flip;
         }
     }
 }
