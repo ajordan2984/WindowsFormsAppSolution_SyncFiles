@@ -36,6 +36,7 @@ namespace WindowsFormsAppProject_SyncFiles
             this.infoLable = new System.Windows.Forms.Label();
             this.buttonSyncFiles = new System.Windows.Forms.Button();
             this.labelError = new System.Windows.Forms.Label();
+            this.labelGoodMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // pcFolderDirectory
@@ -105,11 +106,21 @@ namespace WindowsFormsAppProject_SyncFiles
             this.labelError.Size = new System.Drawing.Size(0, 17);
             this.labelError.TabIndex = 6;
             // 
+            // labelGoodMessage
+            // 
+            this.labelGoodMessage.AutoSize = true;
+            this.labelGoodMessage.ForeColor = System.Drawing.Color.Blue;
+            this.labelGoodMessage.Location = new System.Drawing.Point(18, 52);
+            this.labelGoodMessage.Name = "labelGoodMessage";
+            this.labelGoodMessage.Size = new System.Drawing.Size(0, 17);
+            this.labelGoodMessage.TabIndex = 7;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(637, 219);
+            this.Controls.Add(this.labelGoodMessage);
             this.Controls.Add(this.labelError);
             this.Controls.Add(this.buttonSyncFiles);
             this.Controls.Add(this.infoLable);
@@ -134,6 +145,7 @@ namespace WindowsFormsAppProject_SyncFiles
         private System.Windows.Forms.Label infoLable;
         private System.Windows.Forms.Button buttonSyncFiles;
         private System.Windows.Forms.Label labelError;
+        private System.Windows.Forms.Label labelGoodMessage;
     }
 }
 

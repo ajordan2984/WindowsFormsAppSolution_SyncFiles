@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -36,6 +37,8 @@ namespace WindowsFormsAppProject_SyncFiles
 
         private void buttonSyncFiles_Click(object sender, EventArgs e)
         {
+            labelError.Text = "";
+            labelGoodMessage.Text = "";
             flipButtons(false);
             string msg = _main.ErrorCheck(pcFolderDirectory.Text, externalFolderDirectory.Text);
 
@@ -46,10 +49,17 @@ namespace WindowsFormsAppProject_SyncFiles
             }
             else
             {
+                labelGoodMessage.Text = "Your files are now being synced.";
+
                 Task.Run(() =>
                 {
                     _main.SyncFiles();
-                    flipButtons(true);
+
+                    Invoke(new Action(() =>
+                    {
+                        flipButtons(true);
+                        labelGoodMessage.Text = "Your files are now synced.";
+                    }));
                 });
             }
         }
