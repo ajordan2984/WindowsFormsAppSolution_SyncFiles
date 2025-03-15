@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Project_Compare_Files
+namespace WindowsFormsAppProject_SyncFiles
 {
     public class HelperFunctions
     {

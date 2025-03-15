@@ -6,6 +6,8 @@ namespace WindowsFormsAppProject_SyncFiles
 {
     public partial class Form1 : Form
     {
+        SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
+
         public Form1()
         {
             InitializeComponent();
@@ -33,7 +35,7 @@ namespace WindowsFormsAppProject_SyncFiles
 
         private void buttonSyncFiles_Click(object sender, EventArgs e)
         {
-
+            _main.
         }
 
         private string selectDirectory()

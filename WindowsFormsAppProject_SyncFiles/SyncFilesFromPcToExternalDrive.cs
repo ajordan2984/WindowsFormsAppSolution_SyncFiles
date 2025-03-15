@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Project_Compare_Files
+namespace WindowsFormsAppProject_SyncFiles
 {
     public class SyncFilesFromPcToExternalDrive
     {
@@ -22,7 +22,7 @@ namespace Project_Compare_Files
             // Empty
         }
 
-        public bool StartSync(
+        public string StartSync(
             string PathToFilesOnPc,
             string PathToFilesOnExternal)
         {
@@ -32,8 +32,7 @@ namespace Project_Compare_Files
             }
             else
             {
-                Console.WriteLine($"Sorry the path: {PathToFilesOnPc} does not exist. Please try again.");
-                return false;
+                return $"Sorry the path: {PathToFilesOnPc} does not exist. Please try again.";
             }
 
             if (Directory.Exists(PathToFilesOnExternal))
@@ -42,28 +41,24 @@ namespace Project_Compare_Files
             }
             else
             {
-                Console.WriteLine($"Sorry the path: {PathToFilesOnExternal} does not exist. Please try again.");
-                return false;
+                return $"Sorry the path: {PathToFilesOnExternal} does not exist. Please try again.";
             }
 
             string pathA = Path.GetFileName(_pathToFilesOnPc);
             string pathB = Path.GetFileName(_pathToFilesOnExternal);
 
-
             if (Path.GetFileName(pathA) != Path.GetFileName(pathB))
             {
                 Console.WriteLine($"Sorry the end of path: {_pathToFilesOnPc} does not match the end of path {_pathToFilesOnExternal}. Please try again.");
-                return false;
             }
 
             _shortPathToFilesOnPc = hf.ShortenedPath(_pathToFilesOnPc);
             _shortPathToFilesOnExternal = hf.ShortenedPath(_pathToFilesOnExternal);
 
             SyncFiles();
-            return true;
         }
 
-        public void SyncFiles()
+        private void SyncFiles()
         {
             allSortedFilesFromFromExternalDrive = hf.CheckForChanges($@"{_pathToFilesOnExternal}\Changes.txt");
 
