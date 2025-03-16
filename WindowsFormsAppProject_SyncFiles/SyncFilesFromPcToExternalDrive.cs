@@ -32,7 +32,7 @@ namespace WindowsFormsAppProject_SyncFiles
             }
             else
             {
-                return $"Sorry the path: {PathToFilesOnPc} does not exist. Please try again.";
+                return $"Error: Sorry the path: {PathToFilesOnPc} does not exist. Please try again.";
             }
 
             if (Directory.Exists(PathToFilesOnExternal))
@@ -41,7 +41,7 @@ namespace WindowsFormsAppProject_SyncFiles
             }
             else
             {
-                return $"Sorry the path: {PathToFilesOnExternal} does not exist. Please try again.";
+                return $"Error: Sorry the path: {PathToFilesOnExternal} does not exist. Please try again.";
             }
 
             string pathA = Path.GetFileName(_pathToFilesOnPc);
@@ -49,7 +49,7 @@ namespace WindowsFormsAppProject_SyncFiles
 
             if (Path.GetFileName(pathA) != Path.GetFileName(pathB))
             {
-                return $"Sorry the end of path: {_pathToFilesOnPc} does not match the end of path {_pathToFilesOnExternal}. Please try again.";
+                return $"Error: Sorry the end of path: {_pathToFilesOnPc} does not match the end of path {_pathToFilesOnExternal}. Please try again.";
             }
 
             _shortPathToFilesOnPc = hf.ShortenedPath(_pathToFilesOnPc);

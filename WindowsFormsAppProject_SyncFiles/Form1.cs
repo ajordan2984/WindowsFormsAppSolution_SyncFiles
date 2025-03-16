@@ -17,39 +17,39 @@ namespace WindowsFormsAppProject_SyncFiles
 
         private void buttonPcFolder_Click(object sender, EventArgs e)
         {
-            string directory = selectDirectory();
-
-            if (!string.IsNullOrEmpty(directory))
-            {
-                pcFolderDirectory.Text = directory;
-            }
+            selectDirectory(pcFolderDirectory);
         }
 
-        private void buttonExternalFolder_Click(object sender, EventArgs e)
+        private void buttonExternalFolder1_Click(object sender, EventArgs e)
         {
-            string directory = selectDirectory();
+            selectDirectory(externalFolderDirectory1);
+        }
 
-            if (!string.IsNullOrEmpty(directory))
-            {
-                externalFolderDirectory.Text = directory;
-            }
+        private void buttonExternalFolder2_Click(object sender, EventArgs e)
+        {
+            selectDirectory(externalFolderDirectory2);
+        }
+
+        private void buttonExternalFolder3_Click(object sender, EventArgs e)
+        {
+            selectDirectory(externalFolderDirectory1);
         }
 
         private void buttonSyncFiles_Click(object sender, EventArgs e)
         {
-            labelError.Text = "";
-            labelGoodMessage.Text = "";
             flipButtons(false);
-            string msg = _main.ErrorCheck(pcFolderDirectory.Text, externalFolderDirectory.Text);
+            string msg = _main.ErrorCheck(pcFolderDirectory.Text, externalFolderDirectory1.Text) + Environment.NewLine;
 
             if (!string.IsNullOrEmpty(msg))
             {
-                labelError.Text = msg;
+                richTextBoxMessages.ForeColor = Color.Red;
+                richTextBoxMessages.Text = msg;
                 flipButtons(true);
             }
             else
             {
-                labelGoodMessage.Text = "Your files are now being synced.";
+                richTextBoxMessages.ForeColor = Color.Blue;
+                richTextBoxMessages.Text = "Your files are now being synced." + Environment.NewLine;
 
                 Task.Run(() =>
                 {
@@ -58,13 +58,14 @@ namespace WindowsFormsAppProject_SyncFiles
                     Invoke(new Action(() =>
                     {
                         flipButtons(true);
-                        labelGoodMessage.Text = "Your files are now synced.";
+                        richTextBoxMessages.ForeColor = Color.Blue;
+                        richTextBoxMessages.Text = "Your files are now synced." + Environment.NewLine;
                     }));
                 });
             }
         }
 
-        private string selectDirectory()
+        private void selectDirectory(TextBox tb)
         {
             using (var fbd = new FolderBrowserDialog())
             {
@@ -72,19 +73,20 @@ namespace WindowsFormsAppProject_SyncFiles
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath) && Directory.Exists(fbd.SelectedPath))
                 {
-                    return fbd.SelectedPath;
+                    tb.Text = fbd.SelectedPath;
                 }
                 else
                 {
-                    labelError.Text = "Error: Please select a folder.";
-                    return null;
+                    richTextBoxMessages.ForeColor = Color.Red;
+                    richTextBoxMessages.Text = "Error: Please select a folder." + Environment.NewLine;
+                    tb.Text = "";
                 }
             }
         }
 
         private void flipButtons(bool flip)
         {
-            buttonExternalFolder.Enabled = flip;
+            buttonExternalFolder1.Enabled = flip;
             buttonPcFolder.Enabled = flip;
             buttonSyncFiles.Enabled = flip;
         }
