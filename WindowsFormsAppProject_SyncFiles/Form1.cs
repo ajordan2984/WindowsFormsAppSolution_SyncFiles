@@ -37,6 +37,11 @@ namespace WindowsFormsAppProject_SyncFiles
             selectDirectory(externalFolderDirectory1);
         }
 
+        private void buttonClearTextbox_Click(object sender, EventArgs e)
+        {
+            richTextBoxMessages.Clear();
+        }
+
         private void buttonSyncFiles_Click(object sender, EventArgs e)
         {
             flipButtons(false);

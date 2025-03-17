@@ -43,6 +43,7 @@ namespace WindowsFormsAppProject_SyncFiles
             this.progressBarExternalFolder1 = new System.Windows.Forms.ProgressBar();
             this.progressBarExternalFolder3 = new System.Windows.Forms.ProgressBar();
             this.richTextBoxMessages = new System.Windows.Forms.RichTextBox();
+            this.buttonClearTextbox = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // pcFolderDirectory
@@ -56,7 +57,7 @@ namespace WindowsFormsAppProject_SyncFiles
             // 
             // externalFolderDirectory1
             // 
-            this.externalFolderDirectory1.Location = new System.Drawing.Point(156, 229);
+            this.externalFolderDirectory1.Location = new System.Drawing.Point(156, 274);
             this.externalFolderDirectory1.Name = "externalFolderDirectory1";
             this.externalFolderDirectory1.ReadOnly = true;
             this.externalFolderDirectory1.Size = new System.Drawing.Size(627, 22);
@@ -75,7 +76,7 @@ namespace WindowsFormsAppProject_SyncFiles
             // 
             // buttonExternalFolder1
             // 
-            this.buttonExternalFolder1.Location = new System.Drawing.Point(12, 228);
+            this.buttonExternalFolder1.Location = new System.Drawing.Point(12, 274);
             this.buttonExternalFolder1.Name = "buttonExternalFolder1";
             this.buttonExternalFolder1.Size = new System.Drawing.Size(132, 23);
             this.buttonExternalFolder1.TabIndex = 3;
@@ -95,7 +96,7 @@ namespace WindowsFormsAppProject_SyncFiles
             // 
             // buttonSyncFiles
             // 
-            this.buttonSyncFiles.Location = new System.Drawing.Point(12, 433);
+            this.buttonSyncFiles.Location = new System.Drawing.Point(12, 479);
             this.buttonSyncFiles.Name = "buttonSyncFiles";
             this.buttonSyncFiles.Size = new System.Drawing.Size(132, 23);
             this.buttonSyncFiles.TabIndex = 5;
@@ -105,7 +106,7 @@ namespace WindowsFormsAppProject_SyncFiles
             // 
             // buttonExternalFolder2
             // 
-            this.buttonExternalFolder2.Location = new System.Drawing.Point(12, 294);
+            this.buttonExternalFolder2.Location = new System.Drawing.Point(12, 340);
             this.buttonExternalFolder2.Name = "buttonExternalFolder2";
             this.buttonExternalFolder2.Size = new System.Drawing.Size(132, 23);
             this.buttonExternalFolder2.TabIndex = 9;
@@ -115,7 +116,7 @@ namespace WindowsFormsAppProject_SyncFiles
             // 
             // externalFolderDirectory2
             // 
-            this.externalFolderDirectory2.Location = new System.Drawing.Point(156, 295);
+            this.externalFolderDirectory2.Location = new System.Drawing.Point(156, 340);
             this.externalFolderDirectory2.Name = "externalFolderDirectory2";
             this.externalFolderDirectory2.ReadOnly = true;
             this.externalFolderDirectory2.Size = new System.Drawing.Size(627, 22);
@@ -124,7 +125,7 @@ namespace WindowsFormsAppProject_SyncFiles
             // 
             // buttonExternalFolder3
             // 
-            this.buttonExternalFolder3.Location = new System.Drawing.Point(13, 361);
+            this.buttonExternalFolder3.Location = new System.Drawing.Point(13, 407);
             this.buttonExternalFolder3.Name = "buttonExternalFolder3";
             this.buttonExternalFolder3.Size = new System.Drawing.Size(132, 23);
             this.buttonExternalFolder3.TabIndex = 11;
@@ -134,7 +135,7 @@ namespace WindowsFormsAppProject_SyncFiles
             // 
             // externalFolderDirectory3
             // 
-            this.externalFolderDirectory3.Location = new System.Drawing.Point(157, 362);
+            this.externalFolderDirectory3.Location = new System.Drawing.Point(157, 407);
             this.externalFolderDirectory3.Name = "externalFolderDirectory3";
             this.externalFolderDirectory3.ReadOnly = true;
             this.externalFolderDirectory3.Size = new System.Drawing.Size(627, 22);
@@ -143,21 +144,21 @@ namespace WindowsFormsAppProject_SyncFiles
             // 
             // progressBarExternalFolder2
             // 
-            this.progressBarExternalFolder2.Location = new System.Drawing.Point(13, 323);
+            this.progressBarExternalFolder2.Location = new System.Drawing.Point(13, 369);
             this.progressBarExternalFolder2.Name = "progressBarExternalFolder2";
             this.progressBarExternalFolder2.Size = new System.Drawing.Size(770, 23);
             this.progressBarExternalFolder2.TabIndex = 12;
             // 
             // progressBarExternalFolder1
             // 
-            this.progressBarExternalFolder1.Location = new System.Drawing.Point(13, 257);
+            this.progressBarExternalFolder1.Location = new System.Drawing.Point(13, 303);
             this.progressBarExternalFolder1.Name = "progressBarExternalFolder1";
             this.progressBarExternalFolder1.Size = new System.Drawing.Size(770, 23);
             this.progressBarExternalFolder1.TabIndex = 13;
             // 
             // progressBarExternalFolder3
             // 
-            this.progressBarExternalFolder3.Location = new System.Drawing.Point(13, 390);
+            this.progressBarExternalFolder3.Location = new System.Drawing.Point(13, 436);
             this.progressBarExternalFolder3.Name = "progressBarExternalFolder3";
             this.progressBarExternalFolder3.Size = new System.Drawing.Size(770, 23);
             this.progressBarExternalFolder3.TabIndex = 14;
@@ -171,11 +172,22 @@ namespace WindowsFormsAppProject_SyncFiles
             this.richTextBoxMessages.TabIndex = 16;
             this.richTextBoxMessages.Text = "";
             // 
+            // buttonClearTextbox
+            // 
+            this.buttonClearTextbox.Location = new System.Drawing.Point(327, 228);
+            this.buttonClearTextbox.Name = "buttonClearTextbox";
+            this.buttonClearTextbox.Size = new System.Drawing.Size(103, 23);
+            this.buttonClearTextbox.TabIndex = 17;
+            this.buttonClearTextbox.Text = "Clear Textbox";
+            this.buttonClearTextbox.UseVisualStyleBackColor = true;
+            this.buttonClearTextbox.Click += new System.EventHandler(this.buttonClearTextbox_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(797, 465);
+            this.ClientSize = new System.Drawing.Size(797, 517);
+            this.Controls.Add(this.buttonClearTextbox);
             this.Controls.Add(this.richTextBoxMessages);
             this.Controls.Add(this.progressBarExternalFolder3);
             this.Controls.Add(this.progressBarExternalFolder1);
@@ -214,6 +226,7 @@ namespace WindowsFormsAppProject_SyncFiles
         private System.Windows.Forms.ProgressBar progressBarExternalFolder1;
         private System.Windows.Forms.ProgressBar progressBarExternalFolder3;
         private System.Windows.Forms.RichTextBox richTextBoxMessages;
+        private System.Windows.Forms.Button buttonClearTextbox;
     }
 }
 
