@@ -22,40 +22,12 @@ namespace WindowsFormsAppProject_SyncFiles
             // Empty
         }
 
-        public string ErrorCheck(
-            string PathToFilesOnPc,
-            string PathToFilesOnExternal)
+        public void SetPaths(string PathToFilesOnPc, string PathToFilesOnExternal)
         {
-            if (Directory.Exists(PathToFilesOnPc))
-            {
-                _pathToFilesOnPc = PathToFilesOnPc;
-            }
-            else
-            {
-                return $"Error: Sorry the path: {PathToFilesOnPc} does not exist. Please try again.";
-            }
-
-            if (Directory.Exists(PathToFilesOnExternal))
-            {
-                _pathToFilesOnExternal = PathToFilesOnExternal;
-            }
-            else
-            {
-                return $"Error: Sorry the path: {PathToFilesOnExternal} does not exist. Please try again.";
-            }
-
-            string pathA = Path.GetFileName(_pathToFilesOnPc);
-            string pathB = Path.GetFileName(_pathToFilesOnExternal);
-
-            if (Path.GetFileName(pathA) != Path.GetFileName(pathB))
-            {
-                return $"Error: Sorry the end of path: {_pathToFilesOnPc} does not match the end of path {_pathToFilesOnExternal}. Please try again.";
-            }
-
+             _pathToFilesOnPc = PathToFilesOnPc;
+             _pathToFilesOnExternal = PathToFilesOnExternal;
             _shortPathToFilesOnPc = hf.ShortenedPath(_pathToFilesOnPc);
             _shortPathToFilesOnExternal = hf.ShortenedPath(_pathToFilesOnExternal);
-
-            return null;
         }
 
         public void SyncFiles()
