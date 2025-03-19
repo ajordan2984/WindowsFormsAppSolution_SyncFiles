@@ -54,10 +54,15 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="HelperClasses\AppendColoredText.cs" />
     <Compile Include="HelperFunctions.cs" />
+    <Compile Include="Interfaces\IAppendColoredText.cs" />
+    <Compile Include="Interfaces\IErrorCheck.cs" />
+    <Compile Include="Interfaces\IFormView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncFilesFromPcToExternalDrive.cs" />
+    <Compile Include="HelperClasses\Triple.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsFormsAppProject_SyncFiles.HelperClasses;
+using WindowsFormsAppProject_SyncFiles.Interfaces;
 
 namespace WindowsFormsAppProject_SyncFiles
 {
     public partial class Form1 : Form
     {
         SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
-        ErrorCheck _ec = new ErrorCheck();
+        IErrorCheck _ec = new ErrorCheck();
+        IAppendColoredText _act = new AppendColoredText();
 
         public Form1()
         {
@@ -19,22 +21,22 @@ namespace WindowsFormsAppProject_SyncFiles
 
         private void buttonPcFolder_Click(object sender, EventArgs e)
         {
-            selectDirectory(pcFolderDirectory);
+            _ec.selectDirectory(_act, richTextBoxMessages, pcFolderDirectory);
         }
 
         private void buttonExternalFolder1_Click(object sender, EventArgs e)
         {
-            selectDirectory(externalFolderDirectory1);
+            _ec.selectDirectory(_act, richTextBoxMessages, externalFolderDirectory1);
         }
 
         private void buttonExternalFolder2_Click(object sender, EventArgs e)
         {
-            selectDirectory(externalFolderDirectory2);
+            _ec.selectDirectory(_act, richTextBoxMessages, externalFolderDirectory2);
         }
 
         private void buttonExternalFolder3_Click(object sender, EventArgs e)
         {
-            selectDirectory(externalFolderDirectory1);
+            _ec.selectDirectory(_act, richTextBoxMessages, externalFolderDirectory3);
         }
 
         private void buttonClearTextbox_Click(object sender, EventArgs e)
@@ -53,9 +55,11 @@ namespace WindowsFormsAppProject_SyncFiles
                 externalFolderDirectory3
             };
 
-            if (CheckPaths(pcFolderDirectory.Text, tb))
+            Triple<bool, string, Color> errorFree = _ec.CheckPaths(pcFolderDirectory.Text, tb);
+
+            if (errorFree.First)
             {
-                AppendColoredText("Your files are now being synced." + Environment.NewLine, Color.Blue);
+                _act.AppendColoredText(richTextBoxMessages, "Your files are now being synced." + Environment.NewLine, Color.Blue);
 
                 Task.Run(() =>
                 {
@@ -64,77 +68,24 @@ namespace WindowsFormsAppProject_SyncFiles
                     Invoke(new Action(() =>
                     {
                         flipButtons(true);
-                        AppendColoredText("Your files are now synced." + Environment.NewLine, Color.Blue);
+                        _act.AppendColoredText(richTextBoxMessages, "Your files are now synced." + Environment.NewLine, Color.Blue);
                     }));
                 });
             }
             else
             {
+                _act.AppendColoredText(richTextBoxMessages, errorFree.Second, errorFree.Third);
                 flipButtons(true);
             }
         }
 
-        private void selectDirectory(TextBox tb)
-        {
-            using (var fbd = new FolderBrowserDialog())
-            {
-                DialogResult result = fbd.ShowDialog();
-
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath) && Directory.Exists(fbd.SelectedPath))
-                {
-                    tb.Text = fbd.SelectedPath;
-                }
-                else
-                {
-                    AppendColoredText("Error: Please select a folder." + Environment.NewLine, Color.Red);
-                    tb.Text = "";
-                }
-            }
-        }
-
-        private void AppendColoredText(string text, Color color)
-        {
-            richTextBoxMessages.SelectionStart = richTextBoxMessages.TextLength; // Move cursor to end
-            richTextBoxMessages.SelectionLength = 0; // Ensure no text is selected
-            richTextBoxMessages.SelectionColor = color; // Set color
-            richTextBoxMessages.AppendText(text); // Append the text
-            richTextBoxMessages.SelectionColor = richTextBoxMessages.ForeColor; // Reset color to default
-        }
-
-        private void flipButtons(bool flip)
+        void flipButtons(bool flip)
         {
             buttonExternalFolder1.Enabled = flip;
             buttonExternalFolder2.Enabled = flip;
             buttonExternalFolder3.Enabled = flip;
             buttonPcFolder.Enabled = flip;
             buttonSyncFiles.Enabled = flip;
-        }
-
-        private bool CheckPaths(string pcFolder, List<TextBox> textBoxes)
-        {
-            if (string.IsNullOrEmpty(pcFolder))
-            {
-                AppendColoredText("Error: The PC path cannot be empty. Please Try again." + Environment.NewLine, Color.Red);
-                return false;
-            }
-            
-            foreach (var tb in textBoxes)
-            {
-                if (tb.Text == pcFolder)
-                {
-                    AppendColoredText("Error: The PC path and External Path cannot be the same. Please Try again." + Environment.NewLine, Color.Red);
-                    return false;
-                }
-
-                string error = _ec.StartCheck(pcFolder, tb.Text) + Environment.NewLine;
-
-                if (!string.IsNullOrEmpty(error))
-                {
-                    AppendColoredText(error, Color.Red);
-                    return false;
-                }
-            }
-            return true;
         }
     }
 }
