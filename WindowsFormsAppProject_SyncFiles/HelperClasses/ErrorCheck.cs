@@ -26,7 +26,7 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
                 }
                 else
                 {
-                    iact.AppendColoredText("Error: Please select a folder." + Environment.NewLine, Color.Red);
+                    iact.AppendColoredText("Error: Please select a folder.", Color.Red);
                     tb.Text = "";
                 }
             }
@@ -36,17 +36,17 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
         {
             if (string.IsNullOrEmpty(pcFolder))
             {
-                return new Triple<bool, string, Color>(false, "Error: The PC path cannot be empty. Please Try again." + Environment.NewLine, Color.Red);
+                return new Triple<bool, string, Color>(false, "Error: The PC path cannot be empty. Please Try again.", Color.Red);
             }
 
             foreach (var tb in textBoxes)
             {
                 if (tb.Text == pcFolder)
                 {
-                    return new Triple<bool, string, Color>(false, "Error: The PC path and External Path cannot be the same. Please Try again." + Environment.NewLine, Color.Red);
+                    return new Triple<bool, string, Color>(false, "Error: The PC path and External Path cannot be the same. Please Try again.", Color.Red);
                 }
 
-                string error = StartCheck(pcFolder, tb.Text) + Environment.NewLine;
+                string error = StartCheck(pcFolder, tb);
 
                 if (!string.IsNullOrEmpty(error))
                 {
@@ -57,24 +57,30 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
             return new Triple<bool, string, Color>(true, "", Color.Black);
         }
 
-        private string StartCheck(string PathToFilesOnPc, string PathToFilesOnExternal)
+        private string StartCheck(string PathToFilesOnPc, TextBox tb)
         {
             if (!Directory.Exists(PathToFilesOnPc))
             {
                 return $"Error: Sorry the path on your PC: {PathToFilesOnPc} does not exist. Please try again.";
             }
 
-            if (!Directory.Exists(PathToFilesOnExternal))
+            if ((tb.Name == "externalFolderDirectory2" && string.IsNullOrEmpty(tb.Text)) || 
+                (tb.Name == "externalFolderDirectory3" && string.IsNullOrEmpty(tb.Text)))
             {
-                return $"Error: Sorry the path on your External Drive: {PathToFilesOnExternal} does not exist. Please try again.";
+                return null;
+            }
+
+            if (!Directory.Exists(tb.Text))
+            {
+                return $"Error: Sorry the path on your External Drive: {tb.Text} does not exist. Please try again.";
             }
 
             string pathA = Path.GetFileName(PathToFilesOnPc);
-            string pathB = Path.GetFileName(PathToFilesOnExternal);
+            string pathB = Path.GetFileName(tb.Text);
 
             if (Path.GetFileName(pathA) != Path.GetFileName(pathB))
             {
-                return $"Error: Sorry the end of path: {PathToFilesOnPc} does not match the end of path {PathToFilesOnExternal}. Please try again.";
+                return $"Error: Sorry the end of path: {PathToFilesOnPc} does not match the end of path {tb.Text}. Please try again.";
             }
 
             return null;

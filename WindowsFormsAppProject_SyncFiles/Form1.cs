@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsAppProject_SyncFiles.HelperClasses;
@@ -10,15 +11,16 @@ namespace WindowsFormsAppProject_SyncFiles
 {
     public partial class Form1 : Form
     {
+        IAppendColoredText _act = new AppendColoredText();
         SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
         IErrorCheck _ec = new ErrorCheck();
-        IAppendColoredText _act = new AppendColoredText();
-        
+
 
         public Form1()
         {
             InitializeComponent();
             _act.SetRichTextBox(richTextBoxMessages);
+            _main.SetAppendColorText(_act);
         }
 
         private void buttonPcFolder_Click(object sender, EventArgs e)
@@ -46,33 +48,40 @@ namespace WindowsFormsAppProject_SyncFiles
             richTextBoxMessages.Clear();
         }
 
-        private void buttonSyncFiles_Click(object sender, EventArgs e)
+        private async void buttonSyncFiles_Click(object sender, EventArgs e)
         {
             flipButtons(false);
 
-            List<TextBox> tb = new List<TextBox>
+            List<TextBox> viewTextBoxes = new List<TextBox>
             {
                 externalFolderDirectory1,
                 externalFolderDirectory2,
                 externalFolderDirectory3
             };
 
-            Triple<bool, string, Color> errorFree = _ec.CheckPaths(pcFolderDirectory.Text, tb);
+            Triple<bool, string, Color> errorFree = _ec.CheckPaths(pcFolderDirectory.Text, viewTextBoxes);
 
             if (errorFree.First)
             {
-                _act.AppendColoredText("Your files are now being synced." + Environment.NewLine, Color.Blue);
+                _act.AppendColoredText("Your files are now being synced.", Color.Blue);
 
-                Task.Run(() =>
+                List<Task> tasks = new List<Task>();
+
+                ParallelOptions options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+                Parallel.ForEach(viewTextBoxes, options, vtb =>
                 {
-                    _main.SyncFiles();
+                    // Capture variables to prevent potential scope issues
+                    string pcFolder = pcFolderDirectory.Text;
+                    string externalFolder = vtb.Text;
 
-                    Invoke(new Action(() =>
+                    if (!string.IsNullOrEmpty(externalFolder))
                     {
-                        flipButtons(true);
-                        _act.AppendColoredText("Your files are now synced." + Environment.NewLine, Color.Blue);
-                    }));
+                        _main.SetPaths(pcFolder, externalFolder);
+                        _main.SyncFiles();
+                    }
                 });
+
+                flipButtons(true);
             }
             else
             {

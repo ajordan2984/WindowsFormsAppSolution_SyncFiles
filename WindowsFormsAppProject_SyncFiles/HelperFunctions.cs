@@ -1,14 +1,24 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WindowsFormsAppProject_SyncFiles.Interfaces;
 
 namespace WindowsFormsAppProject_SyncFiles
 {
     public class HelperFunctions
     {
+        private IAppendColoredText _appendColoredText;
+        private object _door = new object();
+
+        public HelperFunctions(IAppendColoredText appendColoredText)
+        {
+            _appendColoredText = appendColoredText;
+        }
+
         public string ShortenedPath(string path)
         {
             string[] tokens = null;
@@ -28,7 +38,7 @@ namespace WindowsFormsAppProject_SyncFiles
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _appendColoredText.AppendColoredText(ex.Message, Color.Red);
             }
 
             return shortenedPath.TrimEnd('\\');
@@ -49,17 +59,19 @@ namespace WindowsFormsAppProject_SyncFiles
                         var fih = new FileInfoHolder("", DateTime.Parse(lines[i + 1]).ToUniversalTime());
                         sortedFiles.Add(lines[i], fih);
                     }
+
+                    _appendColoredText.AppendColoredText($@"Finished getting all files from: {pathToChangesFile}", Color.Blue);
                 }
                 else
                 {
-                    Console.WriteLine($"Cannot find: {pathToChangesFile} | Moving to collect directories and files.");
+                    _appendColoredText.AppendColoredText($"Cannot find: {pathToChangesFile} | Moving to collect directories and files.", Color.Blue);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _appendColoredText.AppendColoredText(ex.Message, Color.Red);
             }
-            
+
             return sortedFiles;
         }
 
@@ -80,13 +92,13 @@ namespace WindowsFormsAppProject_SyncFiles
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        _appendColoredText.AppendColoredText(ex.Message, Color.Red);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _appendColoredText.AppendColoredText(ex.Message, Color.Red);
             }
 
             return allDirectories;
@@ -106,12 +118,12 @@ namespace WindowsFormsAppProject_SyncFiles
 
             foreach (var fih in bagOfAllFiles)
             {
-                if(!allSortedFiles.ContainsKey(fih.FullFilePath))
+                if (!allSortedFiles.ContainsKey(fih.FullFilePath))
                 {
                     allSortedFiles.Add(fih.FullFilePath, fih);
                 }
             }
-            
+
             return allSortedFiles;
         }
 
@@ -125,14 +137,14 @@ namespace WindowsFormsAppProject_SyncFiles
 
                 foreach (string file in files)
                 {
-                   FileInfo fi = new FileInfo(file);
-                   FileInfoHolder fih = new FileInfoHolder(file, fi.LastWriteTimeUtc);
-                   bagOfAllFiles.Add(fih);
+                    FileInfo fi = new FileInfo(file);
+                    FileInfoHolder fih = new FileInfoHolder(file, fi.LastWriteTimeUtc);
+                    bagOfAllFiles.Add(fih);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _appendColoredText.AppendColoredText(ex.Message, Color.Red);
             }
         }
 
@@ -145,7 +157,7 @@ namespace WindowsFormsAppProject_SyncFiles
             try
             {
                 List<Tuple<string, string>> filesToCopy = new List<Tuple<string, string>>();
-                
+
                 foreach (string file in filesFromPcPath.Keys)
                 {
                     string destinationPathForFile = file.Replace(_shortPathToFilesOnPc, _shortPathToFilesOnExternal);
@@ -168,15 +180,30 @@ namespace WindowsFormsAppProject_SyncFiles
 
                 ParallelOptions options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
 
-                Parallel.ForEach(filesToCopy, options, ftc =>
+                _appendColoredText.AppendColoredText("Copying files.", Color.BlueViolet);
+
+                lock (_door)
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(ftc.Item2));
-                    File.Copy(ftc.Item1, ftc.Item2, true);
-                });
+                    Parallel.ForEach(filesToCopy, options, ftc =>
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(ftc.Item2));
+
+                        try
+                        {
+                          File.Copy(ftc.Item1, ftc.Item2, true);
+                        }
+                        catch (Exception ex)
+                        {
+                            _appendColoredText.AppendColoredText(ex.Message, Color.Red);
+                        }
+                        });
+                }
+
+                _appendColoredText.AppendColoredText("Done copying files.", Color.BlueViolet);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _appendColoredText.AppendColoredText(ex.Message, Color.Red);
             }
         }
 
@@ -190,7 +217,7 @@ namespace WindowsFormsAppProject_SyncFiles
             try
             {
                 List<string> keysToRemove = new List<string>();
-                
+
                 foreach (string fileFromExternalDrive in filesFromExternalDrive.Keys)
                 {
                     string filePathOnPc = fileFromExternalDrive.Replace(_shortPathToFilesOnExternal, _shortPathToFilesOnPc);
@@ -212,7 +239,7 @@ namespace WindowsFormsAppProject_SyncFiles
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _appendColoredText.AppendColoredText(ex.Message, Color.Red);
             }
         }
 
@@ -240,7 +267,7 @@ namespace WindowsFormsAppProject_SyncFiles
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _appendColoredText.AppendColoredText(ex.Message, Color.Red);
             }
         }
 
@@ -260,7 +287,7 @@ namespace WindowsFormsAppProject_SyncFiles
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _appendColoredText.AppendColoredText(ex.Message, Color.Red);
             }
         }
     }
