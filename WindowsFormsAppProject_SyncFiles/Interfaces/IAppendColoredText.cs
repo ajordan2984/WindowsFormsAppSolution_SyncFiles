@@ -5,6 +5,8 @@ namespace WindowsFormsAppProject_SyncFiles.Interfaces
 {
     public interface IAppendColoredText
     {
-        void AppendColoredText(RichTextBox rtb, string message, Color color);
+        void SetRichTextBox(RichTextBox rtb);
+
+        void AppendColoredText(string message, Color color);
     }
 }

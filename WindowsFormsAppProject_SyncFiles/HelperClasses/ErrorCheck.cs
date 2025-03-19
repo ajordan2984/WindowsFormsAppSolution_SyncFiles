@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using WindowsFormsAppProject_SyncFiles.HelperClasses;
 using WindowsFormsAppProject_SyncFiles.Interfaces;
 
-namespace WindowsFormsAppProject_SyncFiles
+namespace WindowsFormsAppProject_SyncFiles.HelperClasses
 {
     public class ErrorCheck : IErrorCheck
     {
@@ -27,7 +26,7 @@ namespace WindowsFormsAppProject_SyncFiles
                 }
                 else
                 {
-                    iact.AppendColoredText(rtb, "Error: Please select a folder." + Environment.NewLine, Color.Red);
+                    iact.AppendColoredText("Error: Please select a folder." + Environment.NewLine, Color.Red);
                     tb.Text = "";
                 }
             }

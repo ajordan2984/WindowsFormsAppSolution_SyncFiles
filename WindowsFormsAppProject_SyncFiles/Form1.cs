@@ -13,10 +13,12 @@ namespace WindowsFormsAppProject_SyncFiles
         SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
         IErrorCheck _ec = new ErrorCheck();
         IAppendColoredText _act = new AppendColoredText();
+        
 
         public Form1()
         {
             InitializeComponent();
+            _act.SetRichTextBox(richTextBoxMessages);
         }
 
         private void buttonPcFolder_Click(object sender, EventArgs e)
@@ -59,7 +61,7 @@ namespace WindowsFormsAppProject_SyncFiles
 
             if (errorFree.First)
             {
-                _act.AppendColoredText(richTextBoxMessages, "Your files are now being synced." + Environment.NewLine, Color.Blue);
+                _act.AppendColoredText("Your files are now being synced." + Environment.NewLine, Color.Blue);
 
                 Task.Run(() =>
                 {
@@ -68,13 +70,13 @@ namespace WindowsFormsAppProject_SyncFiles
                     Invoke(new Action(() =>
                     {
                         flipButtons(true);
-                        _act.AppendColoredText(richTextBoxMessages, "Your files are now synced." + Environment.NewLine, Color.Blue);
+                        _act.AppendColoredText("Your files are now synced." + Environment.NewLine, Color.Blue);
                     }));
                 });
             }
             else
             {
-                _act.AppendColoredText(richTextBoxMessages, errorFree.Second, errorFree.Third);
+                _act.AppendColoredText(errorFree.Second, errorFree.Third);
                 flipButtons(true);
             }
         }
