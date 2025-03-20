@@ -29,6 +29,7 @@ namespace WindowsFormsAppProject_SyncFiles
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pcFolder = new System.Windows.Forms.TextBox();
             this.externalFolder1 = new System.Windows.Forms.TextBox();
             this.buttonPcFolder = new System.Windows.Forms.Button();
@@ -184,6 +185,7 @@ namespace WindowsFormsAppProject_SyncFiles
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.infoLable);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Sync Files";
