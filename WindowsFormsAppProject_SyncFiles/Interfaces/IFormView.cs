@@ -1,5 +1,4 @@
-﻿
-namespace WindowsFormsAppProject_SyncFiles.Interfaces
+﻿namespace WindowsFormsAppProject_SyncFiles.Interfaces
 {
     public interface IFormView
     {

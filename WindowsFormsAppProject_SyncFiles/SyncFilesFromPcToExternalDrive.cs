@@ -37,7 +37,7 @@ namespace WindowsFormsAppProject_SyncFiles
             _shortPathToFilesOnExternal = hf.ShortenedPath(_pathToFilesOnExternal);
         }
 
-        public bool SyncFiles()
+        public void SyncFiles()
         {
             _appendColoredText.AppendColoredText($@"Checking for the file: {_pathToFilesOnExternal}\Changes.txt", Color.Blue);
             allSortedFilesFromFromExternalDrive = hf.CheckForChanges($@"{_pathToFilesOnExternal}\Changes.txt");
@@ -87,8 +87,6 @@ namespace WindowsFormsAppProject_SyncFiles
             _appendColoredText.AppendColoredText($"Writing \"Changes.txt\" on: {_pathToFilesOnExternal}", Color.Blue);
             hf.UpdateChangesFile($@"{_pathToFilesOnExternal}\Changes.txt", allSortedFilesFromFromExternalDrive);
             _appendColoredText.AppendColoredText($"Done writing \"Changes.txt\" on: {_pathToFilesOnExternal}", Color.Blue);
-
-            return true;
         }
     }
 }

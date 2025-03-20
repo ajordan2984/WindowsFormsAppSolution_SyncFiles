@@ -1,5 +1,4 @@
-﻿
-namespace WindowsFormsAppProject_SyncFiles.HelperClasses
+﻿namespace WindowsFormsAppProject_SyncFiles.HelperClasses
 {
     public class Triple<T1, T2, T3>
     {
