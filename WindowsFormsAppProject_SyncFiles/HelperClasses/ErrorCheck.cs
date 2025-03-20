@@ -64,10 +64,15 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
                 return $"Error: Sorry the path on your PC: {PathToFilesOnPc} does not exist. Please try again.";
             }
 
-            if ((tb.Name == "externalFolderDirectory2" && string.IsNullOrEmpty(tb.Text)) || 
-                (tb.Name == "externalFolderDirectory3" && string.IsNullOrEmpty(tb.Text)))
+            if ((tb.Name == "externalFolder2" && string.IsNullOrEmpty(tb.Text)) || 
+                (tb.Name == "externalFolder3" && string.IsNullOrEmpty(tb.Text)))
             {
                 return null;
+            }
+
+            if ((tb.Name == "externalFolder1" && string.IsNullOrEmpty(tb.Text)))
+            {
+                return "Error: Sorry you must have a valid path in the \"External Folder 1\" textbox. Please try again.";
             }
 
             if (!Directory.Exists(tb.Text))

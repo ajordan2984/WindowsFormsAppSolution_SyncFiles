@@ -25,7 +25,7 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
                     _richTextBoxMessages.SelectionStart = _richTextBoxMessages.TextLength; // Move cursor to end
                     _richTextBoxMessages.SelectionLength = 0; // Ensure no text is selected
                     _richTextBoxMessages.SelectionColor = color; // Set color
-                    _richTextBoxMessages.AppendText(message + Environment.NewLine + Environment.NewLine); // Append the text
+                    _richTextBoxMessages.AppendText(DateTime.Now.ToString() + " | " + message + Environment.NewLine + Environment.NewLine); // Append the text
                     _richTextBoxMessages.SelectionColor = _richTextBoxMessages.ForeColor; // Reset color to default
                 }));
             }

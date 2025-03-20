@@ -12,7 +12,6 @@ namespace WindowsFormsAppProject_SyncFiles
     public class HelperFunctions
     {
         private IAppendColoredText _appendColoredText;
-        private object _door = new object();
 
         public HelperFunctions(IAppendColoredText appendColoredText)
         {
@@ -60,11 +59,11 @@ namespace WindowsFormsAppProject_SyncFiles
                         sortedFiles.Add(lines[i], fih);
                     }
 
-                    _appendColoredText.AppendColoredText($@"Finished getting all files from: {pathToChangesFile}", Color.Blue);
+                    _appendColoredText.AppendColoredText($@"File found. Done getting all files from: {pathToChangesFile}", Color.Blue);
                 }
                 else
                 {
-                    _appendColoredText.AppendColoredText($"Cannot find: {pathToChangesFile} | Moving to collect directories and files.", Color.Blue);
+                    _appendColoredText.AppendColoredText($"Cannot find: {pathToChangesFile} | Moving to collect directories and files.", Color.YellowGreen);
                 }
             }
             catch (Exception ex)
@@ -77,17 +76,10 @@ namespace WindowsFormsAppProject_SyncFiles
 
         public List<string> GetAllDirectories(string startingDirectory)
         {
-            List<string> allDirectories = new List<string>();
-           
-            lock (_door)
-            {
-                List<string> filtered =
+            List<string> allDirectories =
                 Directory.GetDirectories(startingDirectory)
                 .Where(dir => !dir.Contains("GitHub"))
                 .ToList();
-
-                allDirectories.AddRange(filtered);
-            }
 
             try
             {
@@ -187,26 +179,19 @@ namespace WindowsFormsAppProject_SyncFiles
 
                 ParallelOptions options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
 
-                _appendColoredText.AppendColoredText("Copying files.", Color.BlueViolet);
-
-                lock (_door)
+                Parallel.ForEach(filesToCopy, options, ftc =>
                 {
-                    Parallel.ForEach(filesToCopy, options, ftc =>
+                    Directory.CreateDirectory(Path.GetDirectoryName(ftc.Item2));
+
+                    try
                     {
-                        Directory.CreateDirectory(Path.GetDirectoryName(ftc.Item2));
-
-                        try
-                        {
-                          File.Copy(ftc.Item1, ftc.Item2, true);
-                        }
-                        catch (Exception ex)
-                        {
-                            _appendColoredText.AppendColoredText(ex.Message, Color.Red);
-                        }
-                        });
-                }
-
-                _appendColoredText.AppendColoredText("Done copying files.", Color.BlueViolet);
+                        File.Copy(ftc.Item1, ftc.Item2, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        _appendColoredText.AppendColoredText(ex.Message, Color.Red);
+                    }
+                });
             }
             catch (Exception ex)
             {

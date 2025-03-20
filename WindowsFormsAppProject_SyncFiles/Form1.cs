@@ -22,22 +22,22 @@ namespace WindowsFormsAppProject_SyncFiles
 
         private void buttonPcFolder_Click(object sender, EventArgs e)
         {
-            _ec.selectDirectory(_act, richTextBoxMessages, pcFolderDirectory);
+            _ec.selectDirectory(_act, richTextBoxMessages, pcFolder);
         }
 
         private void buttonExternalFolder1_Click(object sender, EventArgs e)
         {
-            _ec.selectDirectory(_act, richTextBoxMessages, externalFolderDirectory1);
+            _ec.selectDirectory(_act, richTextBoxMessages, externalFolder1);
         }
 
         private void buttonExternalFolder2_Click(object sender, EventArgs e)
         {
-            _ec.selectDirectory(_act, richTextBoxMessages, externalFolderDirectory2);
+            _ec.selectDirectory(_act, richTextBoxMessages, externalFolder2);
         }
 
         private void buttonExternalFolder3_Click(object sender, EventArgs e)
         {
-            _ec.selectDirectory(_act, richTextBoxMessages, externalFolderDirectory3);
+            _ec.selectDirectory(_act, richTextBoxMessages, externalFolder3);
         }
 
         private void buttonClearTextbox_Click(object sender, EventArgs e)
@@ -51,12 +51,12 @@ namespace WindowsFormsAppProject_SyncFiles
 
             List<TextBox> viewTextBoxes = new List<TextBox>
             {
-                externalFolderDirectory1,
-                externalFolderDirectory2,
-                externalFolderDirectory3
+                externalFolder1,
+                externalFolder2,
+                externalFolder3
             };
 
-            Triple<bool, string, Color> errorFree = _ec.CheckPaths(pcFolderDirectory.Text, viewTextBoxes);
+            Triple<bool, string, Color> errorFree = _ec.CheckPaths(pcFolder.Text, viewTextBoxes);
 
             if (errorFree.First)
             {
@@ -75,7 +75,7 @@ namespace WindowsFormsAppProject_SyncFiles
                             {
                                 SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
                                 _main.SetAppendColorText(_act);
-                                _main.SetPaths(pcFolderDirectory.Text, externalFolder);
+                                _main.SetPaths(pcFolder.Text, externalFolder);
                                 _main.SyncFiles();
                             }
                         }));

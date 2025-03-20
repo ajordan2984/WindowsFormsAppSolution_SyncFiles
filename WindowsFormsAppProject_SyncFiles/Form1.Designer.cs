@@ -29,37 +29,37 @@ namespace WindowsFormsAppProject_SyncFiles
         /// </summary>
         private void InitializeComponent()
         {
-            this.pcFolderDirectory = new System.Windows.Forms.TextBox();
-            this.externalFolderDirectory1 = new System.Windows.Forms.TextBox();
+            this.pcFolder = new System.Windows.Forms.TextBox();
+            this.externalFolder1 = new System.Windows.Forms.TextBox();
             this.buttonPcFolder = new System.Windows.Forms.Button();
             this.buttonExternalFolder1 = new System.Windows.Forms.Button();
             this.infoLable = new System.Windows.Forms.Label();
             this.buttonSyncFiles = new System.Windows.Forms.Button();
             this.buttonExternalFolder2 = new System.Windows.Forms.Button();
-            this.externalFolderDirectory2 = new System.Windows.Forms.TextBox();
+            this.externalFolder2 = new System.Windows.Forms.TextBox();
             this.buttonExternalFolder3 = new System.Windows.Forms.Button();
-            this.externalFolderDirectory3 = new System.Windows.Forms.TextBox();
+            this.externalFolder3 = new System.Windows.Forms.TextBox();
             this.richTextBoxMessages = new System.Windows.Forms.RichTextBox();
             this.buttonClearTextbox = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pcFolderDirectory
+            // pcFolder
             // 
-            this.pcFolderDirectory.Location = new System.Drawing.Point(141, 4);
-            this.pcFolderDirectory.Name = "pcFolderDirectory";
-            this.pcFolderDirectory.Size = new System.Drawing.Size(932, 22);
-            this.pcFolderDirectory.TabIndex = 0;
-            this.pcFolderDirectory.WordWrap = false;
+            this.pcFolder.Location = new System.Drawing.Point(141, 4);
+            this.pcFolder.Name = "pcFolder";
+            this.pcFolder.Size = new System.Drawing.Size(932, 22);
+            this.pcFolder.TabIndex = 0;
+            this.pcFolder.WordWrap = false;
             // 
-            // externalFolderDirectory1
+            // externalFolder1
             // 
-            this.externalFolderDirectory1.Location = new System.Drawing.Point(147, 356);
-            this.externalFolderDirectory1.Name = "externalFolderDirectory1";
-            this.externalFolderDirectory1.Size = new System.Drawing.Size(926, 22);
-            this.externalFolderDirectory1.TabIndex = 1;
-            this.externalFolderDirectory1.WordWrap = false;
+            this.externalFolder1.Location = new System.Drawing.Point(147, 356);
+            this.externalFolder1.Name = "externalFolder1";
+            this.externalFolder1.Size = new System.Drawing.Size(926, 22);
+            this.externalFolder1.TabIndex = 1;
+            this.externalFolder1.WordWrap = false;
             // 
             // buttonPcFolder
             // 
@@ -112,13 +112,13 @@ namespace WindowsFormsAppProject_SyncFiles
             this.buttonExternalFolder2.UseVisualStyleBackColor = true;
             this.buttonExternalFolder2.Click += new System.EventHandler(this.buttonExternalFolder2_Click);
             // 
-            // externalFolderDirectory2
+            // externalFolder2
             // 
-            this.externalFolderDirectory2.Location = new System.Drawing.Point(147, 384);
-            this.externalFolderDirectory2.Name = "externalFolderDirectory2";
-            this.externalFolderDirectory2.Size = new System.Drawing.Size(926, 22);
-            this.externalFolderDirectory2.TabIndex = 8;
-            this.externalFolderDirectory2.WordWrap = false;
+            this.externalFolder2.Location = new System.Drawing.Point(147, 384);
+            this.externalFolder2.Name = "externalFolder2";
+            this.externalFolder2.Size = new System.Drawing.Size(926, 22);
+            this.externalFolder2.TabIndex = 8;
+            this.externalFolder2.WordWrap = false;
             // 
             // buttonExternalFolder3
             // 
@@ -130,13 +130,13 @@ namespace WindowsFormsAppProject_SyncFiles
             this.buttonExternalFolder3.UseVisualStyleBackColor = true;
             this.buttonExternalFolder3.Click += new System.EventHandler(this.buttonExternalFolder3_Click);
             // 
-            // externalFolderDirectory3
+            // externalFolder3
             // 
-            this.externalFolderDirectory3.Location = new System.Drawing.Point(147, 412);
-            this.externalFolderDirectory3.Name = "externalFolderDirectory3";
-            this.externalFolderDirectory3.Size = new System.Drawing.Size(926, 22);
-            this.externalFolderDirectory3.TabIndex = 10;
-            this.externalFolderDirectory3.WordWrap = false;
+            this.externalFolder3.Location = new System.Drawing.Point(147, 412);
+            this.externalFolder3.Name = "externalFolder3";
+            this.externalFolder3.Size = new System.Drawing.Size(926, 22);
+            this.externalFolder3.TabIndex = 10;
+            this.externalFolder3.WordWrap = false;
             // 
             // richTextBoxMessages
             // 
@@ -163,12 +163,12 @@ namespace WindowsFormsAppProject_SyncFiles
             this.panel1.Controls.Add(this.buttonPcFolder);
             this.panel1.Controls.Add(this.buttonExternalFolder3);
             this.panel1.Controls.Add(this.buttonClearTextbox);
-            this.panel1.Controls.Add(this.externalFolderDirectory3);
-            this.panel1.Controls.Add(this.pcFolderDirectory);
+            this.panel1.Controls.Add(this.externalFolder3);
+            this.panel1.Controls.Add(this.pcFolder);
             this.panel1.Controls.Add(this.buttonExternalFolder2);
             this.panel1.Controls.Add(this.richTextBoxMessages);
-            this.panel1.Controls.Add(this.externalFolderDirectory2);
-            this.panel1.Controls.Add(this.externalFolderDirectory1);
+            this.panel1.Controls.Add(this.externalFolder2);
+            this.panel1.Controls.Add(this.externalFolder1);
             this.panel1.Controls.Add(this.buttonSyncFiles);
             this.panel1.Controls.Add(this.buttonExternalFolder1);
             this.panel1.Location = new System.Drawing.Point(12, 26);
@@ -183,6 +183,7 @@ namespace WindowsFormsAppProject_SyncFiles
             this.ClientSize = new System.Drawing.Size(1100, 510);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.infoLable);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Sync Files";
@@ -194,16 +195,16 @@ namespace WindowsFormsAppProject_SyncFiles
 
         #endregion
 
-        private System.Windows.Forms.TextBox pcFolderDirectory;
-        private System.Windows.Forms.TextBox externalFolderDirectory1;
+        private System.Windows.Forms.TextBox pcFolder;
+        private System.Windows.Forms.TextBox externalFolder1;
         private System.Windows.Forms.Button buttonPcFolder;
         private System.Windows.Forms.Button buttonExternalFolder1;
         private System.Windows.Forms.Label infoLable;
         private System.Windows.Forms.Button buttonSyncFiles;
         private System.Windows.Forms.Button buttonExternalFolder2;
-        private System.Windows.Forms.TextBox externalFolderDirectory2;
+        private System.Windows.Forms.TextBox externalFolder2;
         private System.Windows.Forms.Button buttonExternalFolder3;
-        private System.Windows.Forms.TextBox externalFolderDirectory3;
+        private System.Windows.Forms.TextBox externalFolder3;
         private System.Windows.Forms.RichTextBox richTextBoxMessages;
         private System.Windows.Forms.Button buttonClearTextbox;
         private System.Windows.Forms.Panel panel1;
