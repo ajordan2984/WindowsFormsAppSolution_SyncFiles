@@ -12,15 +12,12 @@ namespace WindowsFormsAppProject_SyncFiles
     public partial class Form1 : Form
     {
         IAppendColoredText _act = new AppendColoredText();
-        SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
         IErrorCheck _ec = new ErrorCheck();
-
 
         public Form1()
         {
             InitializeComponent();
             _act.SetRichTextBox(richTextBoxMessages);
-            _main.SetAppendColorText(_act);
         }
 
         private void buttonPcFolder_Click(object sender, EventArgs e)
@@ -76,6 +73,8 @@ namespace WindowsFormsAppProject_SyncFiles
                         {
                             if (!string.IsNullOrEmpty(externalFolder))
                             {
+                                SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
+                                _main.SetAppendColorText(_act);
                                 _main.SetPaths(pcFolderDirectory.Text, externalFolder);
                                 _main.SyncFiles();
                             }
