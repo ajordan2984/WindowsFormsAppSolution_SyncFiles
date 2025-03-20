@@ -77,10 +77,17 @@ namespace WindowsFormsAppProject_SyncFiles
 
         public List<string> GetAllDirectories(string startingDirectory)
         {
-            List<string> allDirectories =
+            List<string> allDirectories = new List<string>();
+           
+            lock (_door)
+            {
+                List<string> filtered =
                 Directory.GetDirectories(startingDirectory)
                 .Where(dir => !dir.Contains("GitHub"))
                 .ToList();
+
+                allDirectories.AddRange(filtered);
+            }
 
             try
             {

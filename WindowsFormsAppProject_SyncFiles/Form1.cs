@@ -65,22 +65,24 @@ namespace WindowsFormsAppProject_SyncFiles
             {
                 _act.AppendColoredText("Your files are now being synced.", Color.Blue);
 
-                List<Task> tasks = new List<Task>();
-
-                ParallelOptions options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
-                Parallel.ForEach(viewTextBoxes, options, vtb =>
+                var tasks = new List<Task>();
+                
+                foreach (var vtb in viewTextBoxes)
                 {
-                    // Capture variables to prevent potential scope issues
-                    string pcFolder = pcFolderDirectory.Text;
                     string externalFolder = vtb.Text;
 
-                    if (!string.IsNullOrEmpty(externalFolder))
-                    {
-                        _main.SetPaths(pcFolder, externalFolder);
-                        _main.SyncFiles();
-                    }
-                });
+                    tasks.Add(
+                        Task.Run(() =>
+                        {
+                            if (!string.IsNullOrEmpty(externalFolder))
+                            {
+                                _main.SetPaths(pcFolderDirectory.Text, externalFolder);
+                                _main.SyncFiles();
+                            }
+                        }));
+                }
 
+                await Task.WhenAll(tasks);
                 flipButtons(true);
             }
             else
