@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HelperClasses\ErrorCheck.cs" />
-    <Compile Include="FileInfoHolder.cs" />
+    <Compile Include="HelperClasses\FileInfoHolder.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,6 +55,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="HelperClasses\AppendColoredText.cs" />
+    <Compile Include="HelperClasses\GetAllFilesHelper.cs" />
     <Compile Include="HelperFunctions.cs" />
     <Compile Include="Interfaces\IAppendColoredText.cs" />
     <Compile Include="Interfaces\IErrorCheck.cs" />

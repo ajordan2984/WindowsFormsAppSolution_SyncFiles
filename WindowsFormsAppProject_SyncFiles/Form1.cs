@@ -61,23 +61,29 @@ namespace WindowsFormsAppProject_SyncFiles
             {
                 _act.AppendColoredText("Your files are now being synced.", Color.Blue);
 
+                GetAllFilesHelper gafh = new GetAllFilesHelper(_act);
+                var pcFiles = gafh.GetAllFiles(gafh.GetAllDirectories(pcFolder.Text));
+
                 var tasks = new List<Task>();
-                
+
                 foreach (var vtb in viewTextBoxes)
                 {
                     string externalFolder = vtb.Text;
 
-                    tasks.Add(
+                    if (!string.IsNullOrEmpty(externalFolder))
+                    {
+                        var newSetOfPcFiles = gafh.Copy(pcFiles);
+
+                        tasks.Add(
                         Task.Run(() =>
                         {
-                            if (!string.IsNullOrEmpty(externalFolder))
-                            {
-                                SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
-                                _main.SetAppendColorText(_act);
-                                _main.SetPaths(pcFolder.Text, externalFolder);
-                                _main.SyncFiles();
-                            }
+                            SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
+                            _main.SetAppendColorText(_act);
+                            _main.SetAllSortedFilesFromPcPath(newSetOfPcFiles);
+                            _main.SetPaths(pcFolder.Text, externalFolder);
+                            _main.SyncFiles();
                         }));
+                    }
                 }
 
                 await Task.WhenAll(tasks);

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WindowsFormsAppProject_SyncFiles
+namespace WindowsFormsAppProject_SyncFiles.HelperClasses
 {
     public class FileInfoHolder
     {

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WindowsFormsAppProject_SyncFiles.HelperClasses;
 using WindowsFormsAppProject_SyncFiles.Interfaces;
 
 namespace WindowsFormsAppProject_SyncFiles
@@ -41,110 +42,6 @@ namespace WindowsFormsAppProject_SyncFiles
             }
 
             return shortenedPath.TrimEnd('\\');
-        }
-
-        public SortedDictionary<string, FileInfoHolder> CheckForChanges(string pathToChangesFile)
-        {
-            SortedDictionary<string, FileInfoHolder> sortedFiles = new SortedDictionary<string, FileInfoHolder>();
-
-            try
-            {
-                if (File.Exists(pathToChangesFile))
-                {
-                    string[] lines = File.ReadAllLines(pathToChangesFile);
-
-                    for (int i = 0; i < lines.Length - 1; i += 2)
-                    {
-                        var fih = new FileInfoHolder("", DateTime.Parse(lines[i + 1]).ToUniversalTime());
-                        sortedFiles.Add(lines[i], fih);
-                    }
-
-                    _appendColoredText.AppendColoredText($@"File found. Done getting all files from: {pathToChangesFile}", Color.Blue);
-                }
-                else
-                {
-                    _appendColoredText.AppendColoredText($"Cannot find: {pathToChangesFile} | Moving to collect directories and files.", Color.YellowGreen);
-                }
-            }
-            catch (Exception ex)
-            {
-                _appendColoredText.AppendColoredText(ex.Message, Color.Red);
-            }
-
-            return sortedFiles;
-        }
-
-        public List<string> GetAllDirectories(string startingDirectory)
-        {
-            List<string> allDirectories =
-                Directory.GetDirectories(startingDirectory)
-                .Where(dir => !dir.Contains("GitHub"))
-                .ToList();
-
-            try
-            {
-                for (int i = 0; i < allDirectories.Count; i++)
-                {
-                    try
-                    {
-                        allDirectories.AddRange(Directory.GetDirectories(allDirectories[i]));
-                    }
-                    catch (Exception ex)
-                    {
-                        _appendColoredText.AppendColoredText(ex.Message, Color.Red);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _appendColoredText.AppendColoredText(ex.Message, Color.Red);
-            }
-
-            return allDirectories;
-        }
-
-        public SortedDictionary<string, FileInfoHolder> GetAllFiles(List<string> allDirectories)
-        {
-            SortedDictionary<string, FileInfoHolder> allSortedFiles = new SortedDictionary<string, FileInfoHolder>();
-            ConcurrentBag<FileInfoHolder> bagOfAllFiles = new ConcurrentBag<FileInfoHolder>();
-
-            ParallelOptions options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
-
-            Parallel.ForEach(allDirectories, options, directory =>
-            {
-                ConcurrentGetFiles(directory, bagOfAllFiles);
-            });
-
-            foreach (var fih in bagOfAllFiles)
-            {
-                if (!allSortedFiles.ContainsKey(fih.FullFilePath))
-                {
-                    allSortedFiles.Add(fih.FullFilePath, fih);
-                }
-            }
-
-            return allSortedFiles;
-        }
-
-        public void ConcurrentGetFiles(string directory, ConcurrentBag<FileInfoHolder> bagOfAllFiles)
-        {
-            List<string> files = new List<string>();
-
-            try
-            {
-                files.AddRange(Directory.GetFiles(directory, "*"));
-
-                foreach (string file in files)
-                {
-                    FileInfo fi = new FileInfo(file);
-                    FileInfoHolder fih = new FileInfoHolder(file, fi.LastWriteTimeUtc);
-                    bagOfAllFiles.Add(fih);
-                }
-            }
-            catch (Exception ex)
-            {
-                _appendColoredText.AppendColoredText(ex.Message, Color.Red);
-            }
         }
 
         public void CopyFilesFromOneDriveToAnotherDrive(

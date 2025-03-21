@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using WindowsFormsAppProject_SyncFiles.HelperClasses;
 using WindowsFormsAppProject_SyncFiles.Interfaces;
 
 namespace WindowsFormsAppProject_SyncFiles
@@ -29,6 +30,11 @@ namespace WindowsFormsAppProject_SyncFiles
             hf = new HelperFunctions(_appendColoredText);
         }
 
+        public void SetAllSortedFilesFromPcPath(SortedDictionary<string, FileInfoHolder> files)
+        {
+            allSortedFilesFromPcPath = files;
+        }
+
         public void SetPaths(string pathToFilesOnPc, string pathToFilesOnExternal)
         {
             _pathToFilesOnPc = pathToFilesOnPc;
@@ -39,29 +45,15 @@ namespace WindowsFormsAppProject_SyncFiles
 
         public void SyncFiles()
         {
+            GetAllFilesHelper gafh = new GetAllFilesHelper(_appendColoredText);
+            
             _appendColoredText.AppendColoredText($@"Checking for the file: {_pathToFilesOnExternal}\Changes.txt", Color.Blue);
-            allSortedFilesFromFromExternalDrive = hf.CheckForChanges($@"{_pathToFilesOnExternal}\Changes.txt");
+            allSortedFilesFromFromExternalDrive = gafh.CheckForChanges($@"{_pathToFilesOnExternal}\Changes.txt");
 
             if (allSortedFilesFromFromExternalDrive.Count == 0)
             {
-                _appendColoredText.AppendColoredText($@"Getting all folders from: { _pathToFilesOnExternal}", Color.Blue);
-                List<string> directoriesFromExternal = hf.GetAllDirectories(_pathToFilesOnExternal);
-                _appendColoredText.AppendColoredText($@"Done getting all folders from: { _pathToFilesOnExternal}", Color.Blue);
-
-                _appendColoredText.AppendColoredText($@"Getting all files from: { _pathToFilesOnExternal}", Color.Blue);
-                allSortedFilesFromFromExternalDrive = hf.GetAllFiles(directoriesFromExternal);
-                _appendColoredText.AppendColoredText($@"Done getting all files from: { _pathToFilesOnExternal}", Color.Blue);
+                allSortedFilesFromFromExternalDrive = gafh.GetAllFiles(gafh.GetAllDirectories(_pathToFilesOnExternal));
             }
-
-            // Get files from Pc
-            _appendColoredText.AppendColoredText($@"Getting all folders from: {_pathToFilesOnPc}", Color.Blue);
-            List<string> directoriesFromPc = hf.GetAllDirectories(_pathToFilesOnPc);
-            _appendColoredText.AppendColoredText($@"Done getting all folders from: {_pathToFilesOnPc}", Color.Blue);
-
-            _appendColoredText.AppendColoredText($@"Getting all files from: {_pathToFilesOnPc}", Color.Blue);
-            allSortedFilesFromPcPath = hf.GetAllFiles(directoriesFromPc);
-            _appendColoredText.AppendColoredText($@"Done getting all files from: {_pathToFilesOnPc}", Color.Blue);
-
 
             _appendColoredText.AppendColoredText($@"Copying files from: {_pathToFilesOnPc} to {_pathToFilesOnExternal}", Color.Blue);
             hf.CopyFilesFromOneDriveToAnotherDrive(
