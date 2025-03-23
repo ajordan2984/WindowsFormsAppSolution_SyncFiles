@@ -8,7 +8,7 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
     public class AppendColoredText : IAppendColoredText
     {
         private RichTextBox _richTextBoxMessages;
-        private Object door = new object();
+        private object _door = new object();
 
         void IAppendColoredText.SetRichTextBox(RichTextBox richTextBoxMessages)
         {
@@ -17,7 +17,7 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
         
         void IAppendColoredText.AppendColoredText(string message, Color color)
         {
-            lock (door)
+            lock (_door)
             {
                 _richTextBoxMessages.BeginInvoke((Action)(() =>
                 {

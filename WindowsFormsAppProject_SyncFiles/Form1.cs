@@ -39,6 +39,11 @@ namespace WindowsFormsAppProject_SyncFiles
             _ec.selectDirectory(_act, richTextBoxMessages, externalFolder3);
         }
 
+        private void buttonExternalFolder4_Click(object sender, EventArgs e)
+        {
+            _ec.selectDirectory(_act, richTextBoxMessages, externalFolder4);
+        }
+
         private void buttonClearTextbox_Click(object sender, EventArgs e)
         {
             richTextBoxMessages.Clear();
@@ -52,27 +57,33 @@ namespace WindowsFormsAppProject_SyncFiles
             {
                 externalFolder1,
                 externalFolder2,
-                externalFolder3
+                externalFolder3,
+                externalFolder4
             };
 
-            Triple<bool, string, Color> errorFree = _ec.CheckPaths(pcFolder.Text, viewTextBoxes);
+            Triple<bool, string, Color> errorFree = _ec.CheckPaths(pcFolder.Text.Trim(), viewTextBoxes);
 
             if (errorFree.First)
             {
                 _act.AppendColoredText("Your files are now being synced.", Color.Blue);
 
                 GetAllFilesHelper gafh = new GetAllFilesHelper(_act);
-                var pcFiles = gafh.GetAllFiles(gafh.GetAllDirectories(pcFolder.Text));
+                SortedDictionary<string, FileInfoHolder> pcFiles = gafh.GetAllFiles(gafh.GetAllDirectories(pcFolder.Text));
+                SortedDictionary<string, FileInfoHolder> newSetOfPcFiles = new SortedDictionary<string, FileInfoHolder>(pcFiles);
 
                 var tasks = new List<Task>();
 
-                foreach (var vtb in viewTextBoxes)
+                for (int i = 0; i < viewTextBoxes.Count; i++)
                 {
-                    string externalFolder = vtb.Text;
+                    string externalFolder = viewTextBoxes[i].Text.Trim();
 
                     if (!string.IsNullOrEmpty(externalFolder))
                     {
-                        var newSetOfPcFiles = gafh.Copy(pcFiles);
+                        if (i > 1)
+                        {
+                            newSetOfPcFiles = new SortedDictionary<string, FileInfoHolder>(pcFiles);
+                        }
+
 
                         tasks.Add(
                         Task.Run(() =>
@@ -101,6 +112,7 @@ namespace WindowsFormsAppProject_SyncFiles
             buttonExternalFolder1.Enabled = flip;
             buttonExternalFolder2.Enabled = flip;
             buttonExternalFolder3.Enabled = flip;
+            buttonExternalFolder4.Enabled = flip;
             buttonPcFolder.Enabled = flip;
             buttonSyncFiles.Enabled = flip;
         }

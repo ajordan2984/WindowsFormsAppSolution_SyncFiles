@@ -10,7 +10,6 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
     {
         public ErrorCheck()
         {
-
         }
 
         void IErrorCheck.selectDirectory(IAppendColoredText iact, RichTextBox rtb, TextBox tb)
@@ -40,6 +39,8 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
 
             foreach (var tb in textBoxes)
             {
+                tb.Text = tb.Text.Trim();
+                
                 if (tb.Text == pcFolder)
                 {
                     return new Triple<bool, string, Color>(false, "Error: The PC path and External Path cannot be the same. Please Try again.", Color.Red);
@@ -60,11 +61,12 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
         {
             if (!Directory.Exists(PathToFilesOnPc))
             {
-                return $"Error: Sorry the path on your PC: {PathToFilesOnPc} does not exist. Please try again.";
+                return $"Error: Sorry the path on your PC: \"{PathToFilesOnPc}\" does not exist. Please try again.";
             }
 
             if ((tb.Name == "externalFolder2" && string.IsNullOrEmpty(tb.Text)) || 
-                (tb.Name == "externalFolder3" && string.IsNullOrEmpty(tb.Text)))
+                (tb.Name == "externalFolder3" && string.IsNullOrEmpty(tb.Text)) ||
+                (tb.Name == "externalFolder4" && string.IsNullOrEmpty(tb.Text)))
             {
                 return null;
             }

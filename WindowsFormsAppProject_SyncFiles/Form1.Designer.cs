@@ -43,6 +43,8 @@ namespace WindowsFormsAppProject_SyncFiles
             this.richTextBoxMessages = new System.Windows.Forms.RichTextBox();
             this.buttonClearTextbox = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonExternalFolder4 = new System.Windows.Forms.Button();
+            this.externalFolder4 = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,7 +97,7 @@ namespace WindowsFormsAppProject_SyncFiles
             // 
             // buttonSyncFiles
             // 
-            this.buttonSyncFiles.Location = new System.Drawing.Point(3, 441);
+            this.buttonSyncFiles.Location = new System.Drawing.Point(3, 469);
             this.buttonSyncFiles.Name = "buttonSyncFiles";
             this.buttonSyncFiles.Size = new System.Drawing.Size(132, 23);
             this.buttonSyncFiles.TabIndex = 5;
@@ -161,6 +163,8 @@ namespace WindowsFormsAppProject_SyncFiles
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonExternalFolder4);
+            this.panel1.Controls.Add(this.externalFolder4);
             this.panel1.Controls.Add(this.buttonPcFolder);
             this.panel1.Controls.Add(this.buttonExternalFolder3);
             this.panel1.Controls.Add(this.buttonClearTextbox);
@@ -174,14 +178,32 @@ namespace WindowsFormsAppProject_SyncFiles
             this.panel1.Controls.Add(this.buttonExternalFolder1);
             this.panel1.Location = new System.Drawing.Point(12, 26);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1076, 476);
+            this.panel1.Size = new System.Drawing.Size(1076, 498);
             this.panel1.TabIndex = 18;
+            // 
+            // buttonExternalFolder4
+            // 
+            this.buttonExternalFolder4.Location = new System.Drawing.Point(3, 440);
+            this.buttonExternalFolder4.Name = "buttonExternalFolder4";
+            this.buttonExternalFolder4.Size = new System.Drawing.Size(132, 23);
+            this.buttonExternalFolder4.TabIndex = 19;
+            this.buttonExternalFolder4.Text = "External Folder 4";
+            this.buttonExternalFolder4.UseVisualStyleBackColor = true;
+            this.buttonExternalFolder4.Click += new System.EventHandler(this.buttonExternalFolder4_Click);
+            // 
+            // externalFolder4
+            // 
+            this.externalFolder4.Location = new System.Drawing.Point(147, 440);
+            this.externalFolder4.Name = "externalFolder4";
+            this.externalFolder4.Size = new System.Drawing.Size(926, 22);
+            this.externalFolder4.TabIndex = 18;
+            this.externalFolder4.WordWrap = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1100, 510);
+            this.ClientSize = new System.Drawing.Size(1100, 529);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.infoLable);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -210,6 +232,8 @@ namespace WindowsFormsAppProject_SyncFiles
         private System.Windows.Forms.RichTextBox richTextBoxMessages;
         private System.Windows.Forms.Button buttonClearTextbox;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button buttonExternalFolder4;
+        private System.Windows.Forms.TextBox externalFolder4;
     }
 }
 
