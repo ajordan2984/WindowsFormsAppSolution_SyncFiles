@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Drawing;
 using WindowsFormsAppProject_SyncFiles.HelperClasses;
 using WindowsFormsAppProject_SyncFiles.Interfaces;
@@ -15,7 +16,7 @@ namespace WindowsFormsAppProject_SyncFiles
         private string _shortPathToFilesOnPc;
         private string _shortPathToFilesOnExternal;
 
-        private SortedDictionary<string, FileInfoHolder> allSortedFilesFromPcPath;
+        private ConcurrentDictionary<string, FileInfoHolder> allSortedFilesFromPcPath;
         private SortedDictionary<string, FileInfoHolder> allSortedFilesFromFromExternalDrive;
 
         private HelperFunctions hf;
@@ -30,7 +31,7 @@ namespace WindowsFormsAppProject_SyncFiles
             hf = new HelperFunctions(_appendColoredText);
         }
 
-        public void SetAllSortedFilesFromPcPath(SortedDictionary<string, FileInfoHolder> files)
+        public void SetAllSortedFilesFromPcPath(ConcurrentDictionary<string, FileInfoHolder> files)
         {
             allSortedFilesFromPcPath = files;
         }

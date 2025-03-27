@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using WindowsFormsAppProject_SyncFiles.HelperClasses;
 using WindowsFormsAppProject_SyncFiles.Interfaces;
@@ -45,7 +44,7 @@ namespace WindowsFormsAppProject_SyncFiles
         }
 
         public void CopyFilesFromOneDriveToAnotherDrive(
-            SortedDictionary<string, FileInfoHolder> filesFromPcPath,
+            ConcurrentDictionary<string, FileInfoHolder> filesFromPcPath,
             SortedDictionary<string, FileInfoHolder> filesFromExternalDrive,
             string _shortPathToFilesOnPc,
             string _shortPathToFilesOnExternal)
@@ -97,7 +96,7 @@ namespace WindowsFormsAppProject_SyncFiles
         }
 
         public void QuarantineFiles(
-            SortedDictionary<string, FileInfoHolder> filesFromPcPath,
+            ConcurrentDictionary<string, FileInfoHolder> filesFromPcPath,
             SortedDictionary<string, FileInfoHolder> filesFromExternalDrive,
             string _shortPathToFilesOnPc,
             string _shortPathToFilesOnExternal

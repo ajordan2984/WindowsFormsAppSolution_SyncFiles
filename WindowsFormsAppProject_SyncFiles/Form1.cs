@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -69,34 +70,29 @@ namespace WindowsFormsAppProject_SyncFiles
 
                 GetAllFilesHelper gafh = new GetAllFilesHelper(_act);
                 SortedDictionary<string, FileInfoHolder> pcFiles = gafh.GetAllFiles(gafh.GetAllDirectories(pcFolder.Text));
-                SortedDictionary<string, FileInfoHolder> newSetOfPcFiles = new SortedDictionary<string, FileInfoHolder>(pcFiles);
+                ConcurrentDictionary<string, FileInfoHolder> dictionary = new ConcurrentDictionary<string, FileInfoHolder>(pcFiles);
+
 
                 var tasks = new List<Task>();
 
-                for (int i = 0; i < viewTextBoxes.Count; i++)
+                foreach (var textBox in viewTextBoxes)
                 {
-                    string externalFolder = viewTextBoxes[i].Text.Trim();
+                    string externalFolder = textBox.Text.Trim();
 
                     if (!string.IsNullOrEmpty(externalFolder))
                     {
-                        if (i > 1)
-                        {
-                            newSetOfPcFiles = new SortedDictionary<string, FileInfoHolder>(pcFiles);
-                        }
-
-
                         tasks.Add(
                         Task.Run(() =>
                         {
                             SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
                             _main.SetAppendColorText(_act);
-                            _main.SetAllSortedFilesFromPcPath(newSetOfPcFiles);
+                            _main.SetAllSortedFilesFromPcPath(dictionary);
                             _main.SetPaths(pcFolder.Text, externalFolder);
                             _main.SyncFiles();
                         }));
                     }
                 }
-
+                
                 await Task.WhenAll(tasks);
                 flipButtons(true);
             }
