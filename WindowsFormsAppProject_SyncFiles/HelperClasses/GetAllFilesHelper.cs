@@ -130,10 +130,5 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
                 _appendColoredText.AppendColoredText(ex.Message, Color.Red);
             }
         }
-
-        public SortedDictionary<string, FileInfoHolder> Copy(SortedDictionary<string, FileInfoHolder> old)
-        {
-            return new SortedDictionary<string, FileInfoHolder>(old);
-        }
     }
 }
