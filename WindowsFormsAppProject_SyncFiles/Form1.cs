@@ -76,6 +76,7 @@ namespace WindowsFormsAppProject_SyncFiles
                 foreach (var textBox in viewTextBoxes)
                 {
                     string externalFolder = textBox.Text.Trim();
+                    string pcFolderFromTextBox = pcFolder.Text;
 
                     if (!string.IsNullOrEmpty(externalFolder))
                     {
@@ -85,7 +86,7 @@ namespace WindowsFormsAppProject_SyncFiles
                             SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
                             _main.SetAppendColorText(_act);
                             _main.SetAllSortedFilesFromPcPath(dictionary);
-                            _main.SetPaths(pcFolder.Text, externalFolder);
+                            _main.SetPaths(pcFolderFromTextBox, externalFolder);
                             _main.SyncFiles();
                         }));
                     }
