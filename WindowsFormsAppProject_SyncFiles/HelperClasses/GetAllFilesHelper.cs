@@ -27,12 +27,14 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
             {
                 if (File.Exists(pathToChangesFile))
                 {
+                    string newPathRoot = Path.GetPathRoot(pathToChangesFile);
                     string[] lines = File.ReadAllLines(pathToChangesFile);
 
                     for (int i = 0; i < lines.Length - 1; i += 2)
                     {
                         var fih = new FileInfoHolder("", DateTime.Parse(lines[i + 1]).ToUniversalTime());
-                        sortedFiles.Add(lines[i], fih);
+                        string oldPathRoot = Path.GetPathRoot(lines[i]);
+                        sortedFiles.Add(lines[i].Replace(oldPathRoot, newPathRoot), fih);
                     }
 
                     _appendColoredText.AppendColoredText($@"File found. Done getting all files from: {pathToChangesFile}", Color.Blue);
