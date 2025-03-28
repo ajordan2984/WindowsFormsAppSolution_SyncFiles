@@ -68,11 +68,9 @@ namespace WindowsFormsAppProject_SyncFiles
             {
                 _act.AppendColoredText("Your files are now being synced.", Color.Blue);
 
-                GetAllFilesHelper gafh = new GetAllFilesHelper(_act);
-                SortedDictionary<string, FileInfoHolder> pcFiles = gafh.GetAllFiles(gafh.GetAllDirectories(pcFolder.Text));
-                ConcurrentDictionary<string, FileInfoHolder> dictionary = new ConcurrentDictionary<string, FileInfoHolder>(pcFiles);
-
-
+                var gafh = new GetAllFilesHelper(_act);
+                var pcFiles = gafh.GetAllFiles(gafh.GetAllDirectories(pcFolder.Text));
+                var dictionary = new ConcurrentDictionary<string, FileInfoHolder>(pcFiles);
                 var tasks = new List<Task>();
 
                 foreach (var textBox in viewTextBoxes)
