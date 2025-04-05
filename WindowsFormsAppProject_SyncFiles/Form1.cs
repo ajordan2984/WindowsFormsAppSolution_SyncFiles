@@ -12,7 +12,7 @@ namespace WindowsFormsAppProject_SyncFiles
     public partial class Form1 : Form
     {
         IAppendColoredText _act = new AppendColoredText();
-        IErrorCheck _ec = new ErrorCheck();
+        IErrorCheck _ec = new ErrorCheckHelper();
         private Dictionary<string, string> _ExternalFoldersSelected = new Dictionary<string, string>();
 
         public Form1()
@@ -60,9 +60,9 @@ namespace WindowsFormsAppProject_SyncFiles
             AddSelectedExternalFolder(externalFolder3.Name, externalFolder3.Text);
             AddSelectedExternalFolder(externalFolder4.Name, externalFolder4.Text);
 
-            HasErrorModel hem = _ec.CheckPaths(pcFolder.Text.Trim(), _ExternalFoldersSelected);
+            HasErrorHelper heh = _ec.CheckPaths(pcFolder.Text.Trim(), _ExternalFoldersSelected);
 
-            if (!hem.HasError)
+            if (!heh.HasError)
             {
                 flipButtons(false);
                 _act.AppendColoredText("Your files are now being synced.", Color.Blue);
@@ -93,7 +93,7 @@ namespace WindowsFormsAppProject_SyncFiles
             }
             else
             {
-                _act.AppendColoredText(hem.ErrorMessage, hem.TextColor);
+                _act.AppendColoredText(heh.ErrorMessage, heh.TextColor);
                 flipButtons(true);
             }
         }

@@ -9,6 +9,6 @@ namespace WindowsFormsAppProject_SyncFiles.Interfaces
     {
         void selectDirectory(IAppendColoredText iact, RichTextBox rtb, TextBox tb);
 
-        HasErrorModel CheckPaths(string pcFolder, Dictionary<string, string> textBoxes);
+        HasErrorHelper CheckPaths(string pcFolder, Dictionary<string, string> textBoxes);
     }
 }

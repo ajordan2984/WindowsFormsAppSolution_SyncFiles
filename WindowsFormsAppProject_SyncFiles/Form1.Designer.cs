@@ -97,7 +97,7 @@ namespace WindowsFormsAppProject_SyncFiles
             // 
             // buttonSyncFiles
             // 
-            this.buttonSyncFiles.Location = new System.Drawing.Point(3, 469);
+            this.buttonSyncFiles.Location = new System.Drawing.Point(406, 468);
             this.buttonSyncFiles.Name = "buttonSyncFiles";
             this.buttonSyncFiles.Size = new System.Drawing.Size(132, 23);
             this.buttonSyncFiles.TabIndex = 5;
@@ -147,13 +147,13 @@ namespace WindowsFormsAppProject_SyncFiles
             this.richTextBoxMessages.Location = new System.Drawing.Point(3, 32);
             this.richTextBoxMessages.Name = "richTextBoxMessages";
             this.richTextBoxMessages.ReadOnly = true;
-            this.richTextBoxMessages.Size = new System.Drawing.Size(1070, 284);
+            this.richTextBoxMessages.Size = new System.Drawing.Size(1070, 317);
             this.richTextBoxMessages.TabIndex = 16;
             this.richTextBoxMessages.Text = "";
             // 
             // buttonClearTextbox
             // 
-            this.buttonClearTextbox.Location = new System.Drawing.Point(5, 322);
+            this.buttonClearTextbox.Location = new System.Drawing.Point(544, 468);
             this.buttonClearTextbox.Name = "buttonClearTextbox";
             this.buttonClearTextbox.Size = new System.Drawing.Size(130, 23);
             this.buttonClearTextbox.TabIndex = 17;

@@ -6,9 +6,9 @@ using WindowsFormsAppProject_SyncFiles.Interfaces;
 
 namespace WindowsFormsAppProject_SyncFiles.HelperClasses
 {
-    public class ErrorCheck : IErrorCheck
+    public class ErrorCheckHelper : IErrorCheck
     {
-        public ErrorCheck()
+        public ErrorCheckHelper()
         {
         }
 
@@ -25,21 +25,21 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
             }
         }
 
-        HasErrorModel IErrorCheck.CheckPaths(string pcFolder, Dictionary<string, string> textBoxes)
+        HasErrorHelper IErrorCheck.CheckPaths(string pcFolder, Dictionary<string, string> textBoxes)
         {
             if (string.IsNullOrEmpty(pcFolder))
             {
-                return new HasErrorModel(true, "Error: The PC path cannot be empty. Please Try again.", Color.Red);
+                return new HasErrorHelper(true, "Error: The PC path cannot be empty. Please Try again.", Color.Red);
             }
 
             if (!Directory.Exists(pcFolder))
             {
-                return new HasErrorModel(true, $"Error: Sorry the path on your PC: \"{pcFolder}\" does not exist. Please try again.", Color.Red);
+                return new HasErrorHelper(true, $"Error: Sorry the path on your PC: \"{pcFolder}\" does not exist. Please try again.", Color.Red);
             }
 
             if (textBoxes.Count == 0)
             {
-                return new HasErrorModel(true, "Error: You must have one external folder selected. Please Try again.", Color.Red);
+                return new HasErrorHelper(true, "Error: You must have one external folder selected. Please Try again.", Color.Red);
             }
 
             foreach (string textBoxNameKey in textBoxes.Keys)
@@ -48,12 +48,12 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
 
                 if (externalFolder == pcFolder)
                 {
-                    return new HasErrorModel(true, "Error: The PC folder path and External folder path cannot be the same. Please Try again.", Color.Red);
+                    return new HasErrorHelper(true, "Error: The PC folder path and External folder path cannot be the same. Please Try again.", Color.Red);
                 }
 
                 if (!Directory.Exists(externalFolder))
                 {
-                    return new HasErrorModel(true, $"Error: Sorry the folder path on your External Drive: \"{externalFolder}\" does not exist. Please try again.", Color.Red);
+                    return new HasErrorHelper(true, $"Error: Sorry the folder path on your External Drive: \"{externalFolder}\" does not exist. Please try again.", Color.Red);
                 }
 
                 string pathA = Path.GetFileName(pcFolder);
@@ -61,11 +61,11 @@ namespace WindowsFormsAppProject_SyncFiles.HelperClasses
 
                 if (pathA != pathB)
                 {
-                    return new HasErrorModel(true, $"Error: Sorry the end of path: \"{pcFolder}\" does not match the end of path \"{externalFolder}\". Please try again.", Color.Red);
+                    return new HasErrorHelper(true, $"Error: Sorry the end of path: \"{pcFolder}\" does not match the end of path \"{externalFolder}\". Please try again.", Color.Red);
                 }
             }
 
-            return new HasErrorModel(false, "", Color.Black);
+            return new HasErrorHelper(false, "", Color.Black);
         }
     }
 }
