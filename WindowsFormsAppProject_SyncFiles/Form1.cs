@@ -13,12 +13,13 @@ namespace WindowsFormsAppProject_SyncFiles
     {
         IAppendColoredText _act = new AppendColoredText();
         IErrorCheck _ec = new ErrorCheckHelper();
-        private Dictionary<string, string> _ExternalFoldersSelected = new Dictionary<string, string>();
+        TrackTextBoxUpdatesHelper _ttbuh;
 
         public Form1()
         {
             InitializeComponent();
             _act.SetRichTextBox(richTextBoxMessages);
+            _ttbuh = new TrackTextBoxUpdatesHelper();
         }
 
         #region Button Clicks
@@ -56,52 +57,76 @@ namespace WindowsFormsAppProject_SyncFiles
         private async void buttonSyncFiles_Click(object sender, EventArgs e)
         {
             string pcFolderFromTextBox = pcFolder.Text.Trim();
-            AddSelectedExternalFolder(externalFolder1.Name, externalFolder1.Text);
-            AddSelectedExternalFolder(externalFolder2.Name, externalFolder2.Text);
-            AddSelectedExternalFolder(externalFolder3.Name, externalFolder3.Text);
-            AddSelectedExternalFolder(externalFolder4.Name, externalFolder4.Text);
 
-            HasErrorHelper heh = _ec.CheckPaths(pcFolderFromTextBox, _ExternalFoldersSelected);
+            _ttbuh.AddSelectedExternalFolder(externalFolder1.Name, externalFolder1.Text);
+            _ttbuh.AddSelectedExternalFolder(externalFolder2.Name, externalFolder2.Text);
+            _ttbuh.AddSelectedExternalFolder(externalFolder3.Name, externalFolder3.Text);
+            _ttbuh.AddSelectedExternalFolder(externalFolder4.Name, externalFolder4.Text);
 
-            if (!heh.HasError)
+            HasErrorHelper heh = _ec.CheckPaths(pcFolderFromTextBox, _ttbuh.ExternalFoldersSelected);
+
+            try
             {
-                FlipButtons(false);
-                _act.AppendColoredText("Your files are now being synced.", Color.Blue);
-
-                var gafh = new GetAllFilesHelper(_act);
-                var pcFiles = gafh.GetAllFiles(gafh.GetAllDirectories(pcFolder.Text.Trim()));
-                var dictionary = new ConcurrentDictionary<string, FileInfoHolder>(pcFiles);
-                var tasks = new List<Task>();
-
-                foreach (var textBoxNameKey in _ExternalFoldersSelected.Keys)
+                if (heh.HasError)
                 {
-                    string externalFolder = _ExternalFoldersSelected[textBoxNameKey];
-                    string pcFolder = pcFolderFromTextBox;
-
-                    tasks.Add(
-                    Task.Run(() =>
-                    {
-                        SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
-                        _main.SetAppendColorText(_act);
-                        _main.SetAllSortedFilesFromPcPath(dictionary);
-                        _main.SetPaths(pcFolder, externalFolder);
-                        _main.SyncFiles();
-                    }));
+                    _act.AppendColoredText(heh.ErrorMessage, Color.Red);
                 }
+                else
+                {
+                    FlipTextBoxesUI(false);
+                    FlipButtonsUI(false);
 
-                await Task.WhenAll(tasks);
-                FlipButtons(true);
+                    _act.AppendColoredText("Now starting on syncing your files to the external folder(s) selected.", Color.Blue);
+
+                    GetAllFilesHelper gafh = new GetAllFilesHelper(_act);
+                    List<string> allSelectedPcFolders = gafh.GetAllDirectories(pcFolderFromTextBox);
+                    SortedDictionary<string, FileInfoHolder> allSelectedPcFiles = gafh.GetAllFiles(allSelectedPcFolders);
+                    ConcurrentDictionary<string, FileInfoHolder> allSeclectedPcFilesForTasks = new ConcurrentDictionary<string, FileInfoHolder>(allSelectedPcFiles);
+                    var tasks = new List<Task>();
+
+                    foreach (var textBoxNameKey in _ttbuh.ExternalFoldersSelected.Keys)
+                    {
+                        string externalFolder = _ttbuh.ExternalFoldersSelected[textBoxNameKey];
+                        string pcFolder = pcFolderFromTextBox;
+
+                        tasks.Add(
+                        Task.Run(() =>
+                        {
+                            SyncFilesFromPcToExternalDrive _main = new SyncFilesFromPcToExternalDrive();
+                            _main.SetAppendColorText(_act);
+                            _main.SetAllSortedFilesFromPcPath(allSeclectedPcFilesForTasks);
+                            _main.SetPaths(pcFolder, externalFolder);
+                            _main.SyncFiles();
+                            _act.AppendColoredText($"Completed syncing your files to \"{externalFolder}\".", Color.Blue);
+                        }));
+                    }
+
+                    await Task.WhenAll(tasks);
+
+                    FlipTextBoxesUI(true);
+                    FlipButtonsUI(true);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _act.AppendColoredText(heh.ErrorMessage, heh.TextColor);
-                FlipButtons(true);
+                _act.AppendColoredText(ex.Message, Color.Red);
+                FlipTextBoxesUI(true);
+                FlipButtonsUI(true);
             }
         }
 
         #endregion
 
-        void FlipButtons(bool isEnabled)
+        void FlipTextBoxesUI(bool isEnabled)
+        {
+            pcFolder.Enabled = isEnabled;
+            externalFolder1.Enabled = isEnabled;
+            externalFolder2.Enabled = isEnabled;
+            externalFolder3.Enabled = isEnabled;
+            externalFolder4.Enabled = isEnabled;
+        }
+
+        void FlipButtonsUI(bool isEnabled)
         {
             buttonExternalFolder1.Enabled = isEnabled;
             buttonExternalFolder2.Enabled = isEnabled;
@@ -109,28 +134,6 @@ namespace WindowsFormsAppProject_SyncFiles
             buttonExternalFolder4.Enabled = isEnabled;
             buttonPcFolder.Enabled = isEnabled;
             buttonSyncFiles.Enabled = isEnabled;
-        }
-
-        private void AddSelectedExternalFolder(string TextBoxName, string TextBoxPath)
-        {
-            if (string.IsNullOrEmpty(TextBoxPath))
-            {
-                if (_ExternalFoldersSelected.ContainsKey(TextBoxName))
-                {
-                    _ExternalFoldersSelected.Remove(TextBoxName);
-                }
-            }
-            else
-            {
-                if (_ExternalFoldersSelected.ContainsKey(TextBoxName))
-                {
-                    _ExternalFoldersSelected[TextBoxName] = TextBoxPath.Trim();
-                }
-                else
-                {
-                    _ExternalFoldersSelected.Add(TextBoxName, TextBoxPath.Trim());
-                }
-            }
         }
     }
 }

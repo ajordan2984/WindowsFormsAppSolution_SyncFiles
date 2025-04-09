@@ -56,6 +56,7 @@
     </Compile>
     <Compile Include="HelperClasses\AppendColoredText.cs" />
     <Compile Include="HelperClasses\GetAllFilesHelper.cs" />
+    <Compile Include="HelperClasses\TrackTextBoxUpdatesHelper.cs" />
     <Compile Include="HelperFunctions.cs" />
     <Compile Include="Interfaces\IAppendColoredText.cs" />
     <Compile Include="Interfaces\IErrorCheck.cs" />
